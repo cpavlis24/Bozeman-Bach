@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julia's Bach | Bozeman 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Shadows+Into+Light&family=Gaegu&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #f2f1ed;
+            --thursday-blue: #7ba7e1;
+            --friday-pink: #d97cb1;
+            --saturday-green: #7eb36a;
+            --sunday-orange: #e88d5d;
+            --title-pink: #f462a6;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            font-family: 'Gaegu', sans-serif;
+            color: #444;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .paper {
+            background: #fdfdfd;
+            max-width: 600px;
+            width: 100%;
+            padding: 40px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        h1.main-title {
+            font-family: 'Shadows Into Light', cursive;
+            color: var(--title-pink);
+            font-size: 4rem;
+            text-align: center;
+            margin: 0;
+            transform: rotate(-2deg);
+        }
+
+        .starburst {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.6;
+        }
+
+        /* Itinerary Layout */
+        .day-container {
+            display: flex;
+            align-items: flex-start;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .day-label {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 2.2rem;
+            width: 40%;
+            line-height: 0.9;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            padding: 0 10px;
+            align-self: center;
+        }
+
+        .activities {
+            width: 50%;
+            font-size: 1.3rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .activities li { margin-bottom: 4px; }
+        .activities a { text-decoration: none; border-bottom: 1px dashed; }
+        .activities a:hover { opacity: 0.7; }
+
+        /* Color Coding per your image */
+        .thursday { color: var(--thursday-blue); flex-direction: row; text-align: left; }
+        .friday { color: var(--friday-pink); flex-direction: row-reverse; text-align: right; }
+        .saturday { color: var(--saturday-green); flex-direction: row; text-align: left; }
+        .sunday { color: var(--sunday-orange); flex-direction: row-reverse; text-align: right; }
+
+        /* Image Placeholder */
+        .photo-section {
+            text-align: center;
+            margin-top: 40px;
+            border-top: 2px dashed #ccc;
+            padding-top: 30px;
+        }
+        .main-photo {
+            width: 80%;
+            border: 10px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: rotate(1deg);
+        }
+
+        @media (max-width: 500px) {
+            h1.main-title { font-size: 2.5rem; }
+            .day-label { font-size: 1.5rem; }
+            .activities { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="paper">
+    <div class="starburst" style="top:20px; left:20px; color:var(--friday-pink)">✨</div>
+    <div class="starburst" style="top:80px; right:40px; color:var(--saturday-green)">✳︎</div>
+    
+    <h1 class="main-title">Itinerary</h1>
+
+    <div class="day-container thursday">
+        <div class="day-label">thursday<br>june 25</div>
+        <div class="arrow">⟶</div>
+        <ul class="activities">
+            <li>Flight to Bozeman</li>
+            <li>Check Into AirBnB</li>
+            <li>Grocery Shop</li>
+            <li>Rodeo</li>
+            <li>Downtown Bozeman</li>
+        </ul>
+    </div>
+
+    <div class="day-container friday">
+        <div class="day-label">friday<br>june 26</div>
+        <div class="arrow">⟵</div>
+        <ul class="activities">
+            <li>Brunch at AirBnB</li>
+            <li>Hiking & Picnic</li>
+            <li>Shopping</li>
+            <li><a href="#" style="color:var(--friday-pink)">Dinner at Tutti Bene</a></li>
+            <li>Drinks & Games at AirBnB</li>
+        </ul>
+    </div>
+
+    <div class="day-container saturday">
+        <div class="day-label">saturday<br>june 27</div>
+        <div class="arrow">⟶</div>
+        <ul class="activities">
+            <li>Gun Range @ 9:00 am</li>
+            <li><a href="#" style="color:var(--saturday-green)">Lunch at Bar 3 Bar-B-Q</a></li>
+            <li>Horseback Riding @ 1:00 pm</li>
+            <li>Dinner at AirBnB</li>
+            <li>Drinks & Games at AirBnB</li>
+        </ul>
+    </div>
+
+    <div class="day-container sunday">
+        <div class="day-label">sunday<br>june 28</div>
+        <div class="arrow">⟵</div>
+        <ul class="activities">
+            <li>Breakfast at Airbnb</li>
+            <li>Flight to Chicago</li>
+        </ul>
+        <div class="starburst" style="bottom:-20px; left:50%; color:var(--thursday-blue)">✨</div>
+    </div>
+
+    <div class="photo-section">
+        <p style="font-family:'Shadows Into Light'; font-size: 1.5rem;">June 25-28 | Bozeman, MT</p>
+        <img src="https://via.placeholder.com/400x300?text=Insert+Group+Photo+Here" alt="Bachelorette Group" class="main-photo">
+    </div>
+</div>
+
+</body>
+</html>
