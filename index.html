@@ -3,155 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Julia's Bach | Bozeman 2026</title>
+    <title>Julia's Bozeman Bach</title>
     <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Gochi+Hand&family=Indie+Flower&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-paper: #fdfaf5;
-            --marker-pink: #f43e95;
-            --thursday-blue: #5b9bd5;
-            --friday-purple: #ae70c9;
-            --saturday-green: #71a95a;
-            --sunday-orange: #f28d52;
-            --link-underline: rgba(0,0,0,0.1);
+            /* Text colors directly from the markers in your drawing */
+            --bg-paper: #fcfaf0;
+            --main-pink: #f43e95;
+            --thursday-blue: #709edf;
+            --friday-pink: #ae71c9; /* The purple-ish pink from Friday */
+            --saturday-green: #7eb56e;
+            --sunday-orange: #f2a061;
+            
+            /* Path/Arrow colors from the sketch */
+            --path-blue: #709edf;
+            --path-pink: #ae71c9;
+            --path-green: #7eb56e;
+            --path-orange: #f2a061;
         }
 
         body {
-            background-color: #e5e2d9;
-            font-family: 'Gochi Hand', cursive;
+            background-color: var(--bg-paper); /* Slightly textured off-white */
+            font-family: 'Indie Flower', cursive; /* Body text (lists) */
             color: #333;
             margin: 0;
-            padding: 10px;
+            padding: 20px;
             display: flex;
             justify-content: center;
         }
 
-        .scrapbook-page {
-            background-color: var(--bg-paper);
-            max-width: 550px;
+        .paper-page {
+            max-width: 600px;
             width: 100%;
             padding: 40px 20px;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.1);
             position: relative;
-            overflow: hidden; /* Contains the floating stickers */
+            box-shadow: 10px 10px 25px rgba(0,0,0,0.05); /* Soft paper shadow */
             border: 1px solid #ddd;
         }
 
-        h1 {
+        /* --- Global Path/Arrow Doodle CSS --- */
+        .path-doodle {
+            position: absolute;
+            font-family: 'Gochi Hand', cursive; /* Whimsical arrow doodle style */
+            font-size: 2.5rem;
+            opacity: 0.6;
+            pointer-events: none; /* Text flows over arrows */
+        }
+
+        /* --- Text Style CSS --- */
+        /* Script font for 'Itinerary' and all Day/Date labels */
+        .whimsical-script {
             font-family: 'Gochi Hand', cursive;
-            color: var(--marker-pink);
-            font-size: 5.5rem;
+            font-weight: normal;
+        }
+
+        .list-text {
+            font-family: 'Indie Flower', cursive; /* Hand-printed look */
+            line-height: 1.1;
+        }
+
+        /* Link specific styling */
+        .list-text a {
+            color: inherit;
+            text-decoration: underline; /* Standard underline, easier with absolute pos. */
+        }
+
+        /* --- Header: Itinerary Title --- */
+        h1.main-title {
+            color: var(--main-pink);
+            font-size: 5rem;
             text-align: center;
-            margin: 10px 0;
-            letter-spacing: -3px;
+            margin: 10px 0 30px 0;
+            transform: rotate(-1deg);
+            letter-spacing: -2px;
+        }
+
+        /* --- Itinerary Layout: PIXEL-PERFECT SCATTERING --- */
+        /* (Uses absolute coordinates matching the drawn positions) */
+        
+        /* -- Thursday Cluster (Blue) -- */
+        .day-label.thursday {
+            color: var(--thursday-blue);
+            position: absolute;
+            top: 150px;
+            left: 20px;
+            font-size: 2.8rem;
+            line-height: 0.8;
+            transform: rotate(1deg);
+        }
+
+        .arrow-thursday {
+            color: var(--path-blue);
+            top: 165px;
+            left: 220px;
+        }
+
+        .activity-list.thursday {
+            color: var(--thursday-blue);
+            position: absolute;
+            top: 140px;
+            left: 45%;
+            width: 50%;
+            font-size: 1.4rem;
             transform: rotate(-1deg);
         }
 
-        /* Day Layout Styles */
-        .day-container {
-            display: flex;
-            align-items: center;
-            margin: 40px 0;
-            position: relative;
-            z-index: 2; /* Ensures text is above stickers if they overlap */
-        }
-
-        .date-side {
-            font-family: 'Covered By Your Grace', cursive;
-            font-size: 2.8rem;
-            width: 40%;
-            line-height: 0.8;
-            font-weight: bold;
-        }
-
-        .arrow {
-            font-size: 2.5rem;
-            padding: 0 10px;
-            opacity: 0.6;
-        }
-
-        .list-side {
-            width: 50%;
-            font-size: 1.4rem;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .list-side li { margin-bottom: 4px; line-height: 1.1; }
-        
-        /* Restaurant Links */
-        .list-side a { 
-            color: inherit; 
-            text-decoration: none; 
-            border-bottom: 3px double var(--link-underline);
-        }
-
-        /* Zig-Zag Direction & Coloring */
-        .thursday { color: var(--thursday-blue); flex-direction: row; }
-        .friday { color: var(--friday-purple); flex-direction: row-reverse; text-align: right; }
-        .saturday { color: var(--saturday-green); flex-direction: row; }
-        .sunday { color: var(--sunday-orange); flex-direction: row-reverse; text-align: right; }
-
-        /* Sticker Components */
-        .sticker {
+        /* -- Friday Cluster (Pink) -- */
+        .day-label.friday {
+            color: var(--friday-pink);
             position: absolute;
-            font-size: 2.5rem;
-            filter: drop-shadow(2px 2px 0px white) drop-shadow(-2px -2px 0px white);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .spark { position: absolute; font-size: 2rem; opacity: 0.8; }
-
-        /* Bottom "Happy Trails" Buttons */
-        .footer-area {
-            margin-top: 60px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .rsvp-btn {
-            background-color: #8c5a44;
-            color: white;
-            padding: 10px 40px;
-            border-radius: 50px;
-            font-size: 2rem;
-            text-decoration: none;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            top: 380px;
+            left: 45%;
+            width: 50%;
+            font-size: 2.8rem;
+            line-height: 0.8;
             transform: rotate(-2deg);
         }
 
-        .happy-trails {
-            font-family: 'Covered By Your Grace', cursive;
-            font-size: 3rem;
-            color: #333;
+        .arrow-friday {
+            color: var(--path-pink);
+            top: 395px;
+            left: 320px;
         }
 
+        .activity-list.friday {
+            color: var(--friday-pink);
+            position: absolute;
+            top: 360px;
+            left: 20px;
+            width: 50%;
+            font-size: 1.4rem;
+            transform: rotate(1deg);
+        }
+
+        /* -- Saturday Cluster (Green) -- */
+        .day-label.saturday {
+            color: var(--saturday-green);
+            position: absolute;
+            top: 550px;
+            left: 20px;
+            font-size: 2.8rem;
+            line-height: 0.8;
+            transform: rotate(1deg);
+        }
+
+        .arrow-saturday {
+            color: var(--path-green);
+            top: 565px;
+            left: 230px;
+        }
+
+        .activity-list.saturday {
+            color: var(--saturday-green);
+            position: absolute;
+            top: 540px;
+            left: 45%;
+            width: 50%;
+            font-size: 1.4rem;
+            transform: rotate(-1deg);
+        }
+
+        /* -- Sunday Cluster (Orange) -- */
+        .day-label.sunday {
+            color: var(--sunday-orange);
+            position: absolute;
+            top: 760px;
+            left: 45%;
+            width: 50%;
+            font-size: 2.8rem;
+            line-height: 0.8;
+            transform: rotate(-2deg);
+        }
+
+        .arrow-sunday {
+            color: var(--path-orange);
+            top: 775px;
+            left: 330px;
+        }
+
+        .activity-list.sunday {
+            color: var(--sunday-orange);
+            position: absolute;
+            top: 740px;
+            left: 20px;
+            width: 50%;
+            font-size: 1.4rem;
+            transform: rotate(1deg);
+        }
+
+        /* (Hidden placeholder for the bottom section in my memory) */
+        .footer-details {
+            margin-top: 850px;
+            text-align: center;
+        }
+
+        /* Mobile Optimization: Simple stack for small screens */
         @media (max-width: 480px) {
-            h1 { font-size: 3.5rem; }
-            .date-side { font-size: 2rem; }
-            .list-side { font-size: 1.1rem; }
+            .paper-page { padding: 40px 10px; }
+            h1.main-title { font-size: 3rem; }
+            .day-label, .activity-list { position: static; width: auto; font-size: 1.1rem; margin-bottom: 10px; }
+            .whimsical-script { font-size: 2rem; }
+            .path-doodle { display: none; } /* Hide pixel-placed arrows on mobile */
+            .day-block { display: flex; flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-<div class="scrapbook-page">
-    <div class="spark" style="top:20px; left:20px; color:var(--friday-purple)">✳︎</div>
-    <div class="spark" style="top:80px; right:40px; color:var(--saturday-green)">✺</div>
-    <div class="sticker" style="top:30px; right:15px; font-size:4rem;">🪩</div>
-    <div class="sticker" style="top:120px; left:-10px; font-size:3.5rem; transform:rotate(-15deg);">👖</div>
+<div class="paper-page">
+    <h1 class="main-title whimsical-script">Itinerary</h1>
 
-    <h1>Itinerary</h1>
-
-    <div class="day-container thursday">
-        <div class="date-side">thursday<br>june 25</div>
-        <div class="arrow">⟶</div>
-        <ul class="list-side">
+    <div class="day-block">
+        <h2 class="day-label whimsical-script thursday">thursday<br>june 25</h2>
+        <div class="path-doodle arrow-thursday">⟶</div>
+        <ul class="activity-list list-text thursday">
             <li>Flight to Bozeman</li>
             <li>Check Into AirBnB</li>
             <li>Grocery Shop</li>
@@ -160,24 +225,22 @@
         </ul>
     </div>
 
-    <div class="sticker" style="top:260px; right:20px; font-size:3.5rem;">👢</div>
-
-    <div class="day-container friday">
-        <div class="date-side">friday<br>june 26</div>
-        <div class="arrow">⟵</div>
-        <ul class="list-side">
+    <div class="day-block">
+        <h2 class="day-label whimsical-script friday">friday<br>june 26</h2>
+        <div class="path-doodle arrow-friday">⟵</div>
+        <ul class="activity-list list-text friday">
             <li>Brunch at AirBnB</li>
             <li>Hiking & Picnic</li>
             <li>Shopping</li>
-            <li><a href="https://www.tuttibenebozeman.com/" target="_blank">Dinner at Tutti Bene</a></li>
+            <li>Dinner at <a href="https://www.tuttibenebozeman.com/" target="_blank">Tutti Bene</a></li>
             <li>Drinks & Games at AirBnB</li>
         </ul>
     </div>
 
-    <div class="day-container saturday">
-        <div class="date-side">saturday<br>june 27</div>
-        <div class="arrow">⟶</div>
-        <ul class="list-side">
+    <div class="day-block">
+        <h2 class="day-label whimsical-script saturday">saturday<br>june 27</h2>
+        <div class="path-doodle arrow-saturday">⟶</div>
+        <ul class="activity-list list-text saturday">
             <li>Gun Range @ 9:00 am</li>
             <li><a href="https://bar3bbq.com/bozeman-menu/" target="_blank">Lunch at Bar 3 Bar-B-Q</a></li>
             <li>Horseback Riding @ 1:00 pm</li>
@@ -186,22 +249,17 @@
         </ul>
     </div>
 
-    <div class="sticker" style="bottom:180px; left:10px; font-size:3.5rem; transform:rotate(10deg);">🔥</div>
-
-    <div class="day-container sunday">
-        <div class="date-side">sunday<br>june 28</div>
-        <div class="arrow">⟵</div>
-        <ul class="list-side">
+    <div class="day-block">
+        <h2 class="day-label whimsical-script sunday">sunday<br>june 28</h2>
+        <div class="path-doodle arrow-sunday">⟵</div>
+        <ul class="activity-list list-text sunday">
             <li>Breakfast at Airbnb</li>
             <li>Flight to Chicago</li>
         </ul>
     </div>
 
-    <div class="footer-area">
-        <div class="sticker" style="position:relative; font-size:3rem; margin-bottom:-10px;">🏇</div>
-        <a href="#" class="rsvp-btn">RSVP</a>
-        <div class="happy-trails">Happy Trails!</div>
-    </div>
+    <div class="footer-details"></div>
+
 </div>
 
 </body>
