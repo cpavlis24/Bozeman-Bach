@@ -4,125 +4,176 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julia's Bach | Bozeman 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Shadows+Into+Light&family=Gaegu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Indie+Flower&family=Gochi+Hand&family=Slackey&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-cream: #f2f1ed;
-            --thursday-blue: #7ba7e1;
-            --friday-pink: #d97cb1;
-            --saturday-green: #7eb36a;
-            --sunday-orange: #e88d5d;
-            --title-pink: #f462a6;
+            /* Saturated marker colors from the agenda images */
+            --bg-page: #f9f7f2;
+            --marker-pink: #f462a6;
+            --thursday-blue: #6c8edd;
+            --friday-purple: #c67edf;
+            --saturday-green: #5baa4e;
+            --sunday-orange: #f99738;
+            
+            /* Sticker border effect */
+            --sticker-border: 1px solid #ddd;
+            --sticker-shadow: 4px 4px 0px rgba(0,0,0,0.05);
         }
 
         body {
-            background-color: var(--bg-cream);
-            font-family: 'Gaegu', sans-serif;
-            color: #444;
+            background-color: #e5e2d9; /* The textured paper background */
+            font-family: 'Indie Flower', cursive;
+            color: #3e3e3e;
             margin: 0;
             padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
         }
 
-        .paper {
-            background: #fdfdfd;
-            max-width: 600px;
+        /* The main sketchbook container */
+        .notebook-page {
+            background-color: var(--bg-page);
+            max-width: 550px;
             width: 100%;
             padding: 40px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #dcdcdc;
             position: relative;
-            min-height: 100vh;
+            overflow: hidden; /* Keeps doodles contained */
         }
 
-        h1.main-title {
-            font-family: 'Shadows Into Light', cursive;
-            color: var(--title-pink);
-            font-size: 4rem;
+        /* The Pink 'Itinerary' Title - whimsical & bold */
+        h1 {
+            font-family: 'Gochi Hand', cursive;
+            color: var(--marker-pink);
+            font-size: 5rem;
             text-align: center;
-            margin: 0;
-            transform: rotate(-2deg);
+            margin: 10px 0;
+            letter-spacing: -2px;
         }
 
-        .starburst {
-            position: absolute;
-            font-size: 1.5rem;
-            opacity: 0.6;
-        }
-
-        /* Itinerary Layout */
-        .day-container {
+        /* The core day layout (Date vs Activity list) */
+        .day-block {
             display: flex;
             align-items: flex-start;
-            margin: 40px 0;
+            margin: 35px 0;
             position: relative;
         }
 
-        .day-label {
-            font-family: 'Shadows Into Light', cursive;
-            font-size: 2.2rem;
+        /* The Hand-printed Dates */
+        .date-label {
+            font-family: 'Covered By Your Grace', cursive;
+            font-size: 2.8rem;
             width: 40%;
-            line-height: 0.9;
+            line-height: 0.8;
+            font-weight: 700;
         }
 
+        /* The Doodle Arrows from the drawings */
         .arrow {
-            font-size: 2rem;
+            font-size: 2.5rem;
             padding: 0 10px;
             align-self: center;
+            color: inherit;
         }
 
-        .activities {
-            width: 50%;
-            font-size: 1.3rem;
+        /* The marker-bubble highlighted list areas */
+        .activity-list {
+            width: 55%;
+            font-size: 1.4rem;
             list-style: none;
-            padding: 0;
+            padding: 15px;
             margin: 0;
+            border-radius: 20px; /* Gives that rounded doodle shape */
+            transition: transform 0.2s;
         }
 
-        .activities li { margin-bottom: 4px; }
-        .activities a { text-decoration: none; border-bottom: 1px dashed; }
-        .activities a:hover { opacity: 0.7; }
+        .activity-list li { margin-bottom: 5px; line-height: 1.1; }
 
-        /* Color Coding per your image */
-        .thursday { color: var(--thursday-blue); flex-direction: row; text-align: left; }
-        .friday { color: var(--friday-pink); flex-direction: row-reverse; text-align: right; }
-        .saturday { color: var(--saturday-green); flex-direction: row; text-align: left; }
+        /* Vibe Update: Links with double-underline, looking like a marker stroke */
+        .activity-list a { 
+            color: inherit; 
+            text-decoration: none; 
+            border-bottom: 3px double; 
+            transition: opacity 0.2s;
+        }
+        .activity-list a:hover { opacity: 0.6; }
+
+        /* --- Color-Coding per the drawings --- */
+        .thursday { color: var(--thursday-blue); flex-direction: row; }
+        .thursday .activity-list { background-color: rgba(108, 142, 221, 0.1); border: 2px dashed rgba(108, 142, 221, 0.3); }
+
+        .friday { color: var(--friday-purple); flex-direction: row-reverse; text-align: right; }
+        .friday .activity-list { background-color: rgba(198, 126, 223, 0.1); border: 2px dashed rgba(198, 126, 223, 0.3); }
+
+        .saturday { color: var(--saturday-green); flex-direction: row; }
+        .saturday .activity-list { background-color: rgba(91, 170, 78, 0.1); border: 2px dashed rgba(91, 170, 78, 0.3); }
+
         .sunday { color: var(--sunday-orange); flex-direction: row-reverse; text-align: right; }
+        .sunday .activity-list { background-color: rgba(249, 151, 56, 0.1); border: 2px dashed rgba(249, 151, 56, 0.3); }
 
-        /* Image Placeholder */
-        .photo-section {
+        /* Doodle Spark Accents (like those drawn around 'Itinerary') */
+        .doodle-spark {
+            position: absolute;
+            font-size: 2.2rem;
+            opacity: 0.7;
+        }
+
+        /* PLACEHOLDER for Sticker-style Graphics (from mood board) */
+        .sticker-placement {
+            position: absolute;
+            width: 70px;
+            height: auto;
+            border: var(--sticker-border);
+            padding: 5px;
+            background: white;
+            box-shadow: var(--sticker-shadow);
+            transform: rotate(-5deg);
+        }
+
+        /* photo area looking like a 'polaroid' sticker */
+        .photo-area {
+            margin-top: 50px;
             text-align: center;
-            margin-top: 40px;
-            border-top: 2px dashed #ccc;
-            padding-top: 30px;
-        }
-        .main-photo {
-            width: 80%;
-            border: 10px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transform: rotate(1deg);
+            position: relative;
         }
 
-        @media (max-width: 500px) {
-            h1.main-title { font-size: 2.5rem; }
-            .day-label { font-size: 1.5rem; }
-            .activities { font-size: 1.1rem; }
+        .polaroid-sticker {
+            background: white;
+            padding: 10px 10px 40px 10px;
+            border: var(--sticker-border);
+            box-shadow: var(--sticker-shadow);
+            display: inline-block;
+            transform: rotate(3deg);
+            max-width: 80%;
+        }
+
+        .polaroid-sticker img { width: 100%; display: block; }
+        .polaroid-sticker .caption { font-family: 'Gochi Hand'; font-size: 1.5rem; margin-top: 10px; color: #333; }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 3rem; }
+            .date-label { font-size: 1.8rem; }
+            .activity-list { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="paper">
-    <div class="starburst" style="top:20px; left:20px; color:var(--friday-pink)">✨</div>
-    <div class="starburst" style="top:80px; right:40px; color:var(--saturday-green)">✳︎</div>
+<div class="notebook-page">
     
-    <h1 class="main-title">Itinerary</h1>
+    <div class="doodle-spark" style="top:10px; left:10px; color:var(--friday-purple)">✳︎</div>
+    <div class="doodle-spark" style="top:50px; right:20px; color:var(--saturday-green)">✺</div>
 
-    <div class="day-container thursday">
-        <div class="day-label">thursday<br>june 25</div>
+    <h1>Itinerary</h1>
+
+    <div class="sticker-placement" style="top: -20px; left: 80%; width: 50px;">
+        🌵
+    </div>
+
+    <div class="day-block thursday">
+        <div class="date-label">thursday<br>june 25</div>
         <div class="arrow">⟶</div>
-        <ul class="activities">
+        <ul class="activity-list">
             <li>Flight to Bozeman</li>
             <li>Check Into AirBnB</li>
             <li>Grocery Shop</li>
@@ -131,44 +182,55 @@
         </ul>
     </div>
 
-    <div class="day-container friday">
-        <div class="day-label">friday<br>june 26</div>
+    <div class="day-block friday">
+        <div class="date-label">friday<br>june 26</div>
         <div class="arrow">⟵</div>
-        <ul class="activities">
+        <ul class="activity-list">
             <li>Brunch at AirBnB</li>
             <li>Hiking & Picnic</li>
             <li>Shopping</li>
-            <li><a href="#" style="color:var(--friday-pink)">Dinner at Tutti Bene</a></li>
+            <li><a href="https://www.tuttibenebozeman.com/" target="_blank">Dinner at Tutti Bene</a></li>
             <li>Drinks & Games at AirBnB</li>
         </ul>
+        <div class="doodle-spark" style="bottom:-30px; left:20%; color:var(--marker-pink)">✨</div>
     </div>
 
-    <div class="day-container saturday">
-        <div class="day-label">saturday<br>june 27</div>
+    <div class="day-block saturday">
+        <div class="date-label">saturday<br>june 27</div>
         <div class="arrow">⟶</div>
-        <ul class="activities">
+        <ul class="activity-list">
             <li>Gun Range @ 9:00 am</li>
-            <li><a href="#" style="color:var(--saturday-green)">Lunch at Bar 3 Bar-B-Q</a></li>
+            <li><a href="https://bar3bbq.com/bozeman-menu/" target="_blank">Lunch at Bar 3 Bar-B-Q</a></li>
             <li>Horseback Riding @ 1:00 pm</li>
             <li>Dinner at AirBnB</li>
             <li>Drinks & Games at AirBnB</li>
         </ul>
     </div>
 
-    <div class="day-container sunday">
-        <div class="day-label">sunday<br>june 28</div>
+    <div class="sticker-placement" style="bottom: 120px; left: -20px; width: 60px;">
+        🪩
+    </div>
+
+    <div class="day-block sunday">
+        <div class="date-label">sunday<br>june 28</div>
         <div class="arrow">⟵</div>
-        <ul class="activities">
+        <ul class="activity-list">
             <li>Breakfast at Airbnb</li>
             <li>Flight to Chicago</li>
         </ul>
-        <div class="starburst" style="bottom:-20px; left:50%; color:var(--thursday-blue)">✨</div>
+        <div class="doodle-spark" style="top:-30px; left:70%; color:var(--thursday-blue)">✳︎</div>
     </div>
 
-    <div class="photo-section">
-        <p style="font-family:'Shadows Into Light'; font-size: 1.5rem;">June 25-28 | Bozeman, MT</p>
-        <img src="https://via.placeholder.com/400x300?text=Insert+Group+Photo+Here" alt="Bachelorette Group" class="main-photo">
+    <div class="photo-area">
+        <div class="sticker-placement" style="top: 10px; right: 10px; width: 50px;">
+            👢
     </div>
+        <div class="polaroid-sticker">
+            <img src="https://via.placeholder.com/350x300?text=Insert+Group+Photo" alt="Bachelorette Group">
+            <p class="caption">Cowgirl Like Me | Bozeman '26</p>
+        </div>
+    </div>
+
 </div>
 
 </body>
